@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE - Server Sent Events Example</title>
+    <link rel="stylesheet" href="/public/styles.css" />
+</head>
+<body>
+    <div class="app">
+        <div class="msgs"></div>
+    </div>
+    <script type="text/javascript">
+        let es = new EventSource("http://localhost:8000/stream")
+        const msgs = document.querySelector('.msgs')
+        es.addEventListener("NEW_MESSAGE", (response) => {
+            const span = document.createElement('span')
+            span.textContent = `id:${response.lastEventId} | date & time: ${response.data}`
+            const msg = document.createElement('div')
+            msg.classList.add('new-message')
+            msg.append(span)
+            msgs.innerHTML = msg.outerHTML
+        })
+        es.addEventListener("END_OF_MESSAGES", (response) => {
+            es.close()
+            const msg = document.createElement('div')
+            msg.classList.add('end-of-message')
+            msg.innerText = "END_OF_MESSAGES"
+            msgs.append(msg)
+        })
+    </script>
+</body>
+</html>

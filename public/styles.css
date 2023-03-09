@@ -1,0 +1,11 @@
+.app {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+.msgs {
+    align-self: center;
+}
+.end-of-message {
+    text-align: center;
+}
